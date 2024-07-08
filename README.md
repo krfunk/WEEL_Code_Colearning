@@ -1,3 +1,4 @@
 # July_8_2024_Code_Colearning
- Code colearning
-Hello
+Code colearning
+
+Biweekly code colearning sessions
