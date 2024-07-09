@@ -1,7 +1,6 @@
 ---
 title: "CodeColearning-July82024"
 author: "Kyla Funk"
-format: pdf
 editor: visual
 code-line-numbers: true
 ---
