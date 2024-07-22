@@ -1,0 +1,80 @@
+---
+title: "CodeColearning-July82024"
+author: "Kyla Funk"
+editor: visual
+code-line-numbers: true
+---
+
+Load Libraries
+
+```{r}
+#| label: load-packages
+#| include: FALSE
+library(netTS)
+library(lubridate)
+library(ggplot2)
+library(reshape2)
+library(readxl)
+library(dplyr)
+library(bayesplot)
+library(see)
+library(bayestestR)
+library(brms)
+library(DHARMa)
+library(performance)
+library(stringr)
+library(ggridges)
+library(RColorBrewer)
+library(ggpubr)
+```
+
+Load and visualize data
+
+```{r}
+BC <- read_excel("~/Documents/PhD/BC_Natural_HistoryNote/BodyConditionDataBook.xlsx")
+
+#| include: false
+#View(BC)
+
+head(BC)
+BC <- na.omit(BC)
+
+BC <- transform(BC, Score_Average = as.numeric(Score_Average))
+BC <- transform(BC, Head = as.numeric(Head))
+BC <- transform(BC, Scapula = as.numeric(Scapula))
+BC <- transform(BC, Thoracic_Region = as.numeric(Thoracic_Region))
+BC <- transform(BC, Pelvic_Bone = as.numeric(Pelvic_Bone))
+BC <- transform(BC, D_W = as.factor(D_W))
+BC <- transform(BC, Dry.Wet_Season = as.factor(Dry.Wet_Season))
+BC <- transform(BC, Age = as.factor(Age))
+BC <- transform(BC, Sex = as.factor(Sex))
+BC <- transform(BC, AgeSex = as.factor(AgeSex))
+
+BC$Nobs<- c(1:126)
+
+ggplot(BC, aes(x=AgeSex, y=Score_Average)) +  geom_boxplot(fill='blue')
+ggplot(BC, aes(x=Age, y=Score_Average)) +  geom_boxplot(fill='blue')
+ggplot(BC, aes(x=Sex, y=Score_Average)) +  geom_boxplot(fill='blue')
+ggplot(BC, aes(x=D_W, y=Score_Average)) +  geom_boxplot(fill='blue')
+ggplot(BC, aes(x=Dry.Wet_Season, y=Score_Average)) +  geom_boxplot(fill='blue')
+
+
+ggdensity(BC$Score_Average, 
+          main = "Density plot of score average",
+          xlab = "body condition")
+
+ggqqplot(BC$Score_Average)
+```
+
+Mean of Average Scores
+
+```{r}
+mean(BC$Score_Average)
+median(BC$Score_Average)
+
+
+```
+
+```{r}
+
+```

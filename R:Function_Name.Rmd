@@ -1,0 +1,27 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+##Load libraries and bring in rain data
+```{r}
+library(readxl)
+
+RainPerYearAS <- read_excel("RainPerYearAS.xlsx", 
+    col_types = c("numeric", "numeric"))
+
+```
+```{r}
+#Function template:
+# name <- function(arguments) {
+#   body
+# }
+
+
+
+```
+
+```{r}
+
+```
+
+
