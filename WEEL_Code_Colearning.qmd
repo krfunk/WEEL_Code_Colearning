@@ -3,6 +3,7 @@ title: "CodeColearning-July82024"
 author: "Kyla Funk"
 editor: visual
 code-line-numbers: true
+code-fold: true
 ---
 
 Load Libraries
