@@ -1755,33 +1755,39 @@ display: none;
 <p>##Load libraries and bring in rain data</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShyZWFkeGwpXG5cblJhaW5QZXJZZWFyQVMgPC0gcmVhZF9leGNlbChcIlJhaW5QZXJZZWFyQVMueGxzeFwiLCBcbiAgICBjb2xfdHlwZXMgPSBjKFwibnVtZXJpY1wiLCBcIm51bWVyaWNcIikpXG5gYGAifQ== -->
-<pre class="r"><code>library(readxl)
-
-RainPerYearAS &lt;- read_excel(&quot;RainPerYearAS.xlsx&quot;, 
-    col_types = c(&quot;numeric&quot;, &quot;numeric&quot;))</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuSmFuMjAyM1dlYXRoZXIkYERhdGUgKEFmcmljYS9Kb2hhbm5lc2J1cmcpYCA8LSBhc19kYXRldGltZShKYW4yMDIzV2VhdGhlciRgRGF0ZSAoQWZyaWNhL0pvaGFubmVzYnVyZylgLGZvcm1hdD1cIiVZLSVtLSVkICVIOiVNOiVTXCIpXG5cbmBgYCJ9 -->
+<pre class="r"><code>Jan2023Weather$`Date (Africa/Johannesburg)` &lt;- as_datetime(Jan2023Weather$`Date (Africa/Johannesburg)`,format=&quot;%Y-%m-%d %H:%M:%S&quot;)
+</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiV2FybmluZzogRXhwZWN0aW5nIG51bWVyaWMgaW4gQjE0IC8gUjE0QzI6IGdvdCAnPydcbiJ9 -->
-<pre><code>Warning: Expecting numeric in B14 / R14C2: got &#39;?&#39;</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiRXJyb3IgaW4gLmxvY2FsKHgsIC4uLikgOiB1bnVzZWQgYXJndW1lbnQgKGZvcm1hdCA9IFwiJVktJW0tJWQgJUg6JU06JVNcIilcbiJ9 -->
+<pre><code>Error in .local(x, ...) : unused argument (format = &quot;%Y-%m-%d %H:%M:%S&quot;)</code></pre>
 <!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuVmlldyhSYWluUGVyWWVhckFTKVxuYGBgIn0= -->
-<pre class="r"><code>View(RainPerYearAS)</code></pre>
-<!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI0Z1bmN0aW9uIHRlbXBsYXRlOlxuIyBuYW1lIDwtIGZ1bmN0aW9uKGFyZ3VtZW50cykge1xuIyAgIGJvZHlcbiMgfVxuXG5Ecm91Z2h0X1llYXIgPC0gZnVuY3Rpb24oeCkgeyBcbiAgaWYgKHg8PTQ1NCkge3JldHVybihwYXN0ZShcIkRyb3VnaHQgWWVhclwiKSlcbn1cbnJldHVybihwYXN0ZShcIk5vbi1Ecm91Z2h0IFllYXJcIikpXG59XG5cbmBgYCJ9 -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI0Z1bmN0aW9uIHRlbXBsYXRlOlxuIyBuYW1lIDwtIGZ1bmN0aW9uKGFyZ3VtZW50cykge1xuIyAgIGJvZHlcbiMgfVxuXG5KYW4yMDIzV2VhdGhlciAlPiVcbiAgICBncm91cF9ieShEYXRlID0gYXMuRGF0ZShtZHlfaG0oRGF0ZSkpKSAlPiVcbiAgICBzdW1tYXJpc2UobWluX3RlbXAgPSBtaW4oVGVtcGVyYXR1cmUsIG5hLnJtID0gVFJVRSksXG4gICAgICAgICAgICAgIG1heF90ZW1wID0gbWF4KFRlbXBlcmF0dXJlLCBuYS5ybSA9IFRSVUUpLFxuICAgICAgbWVhbl90ZW1wID0gbWVhbihUZW1wZXJhdHVyZSwgbmEucm0gPSBUUlVFKSwgLmdyb3VwcyA9ICdkcm9wJylcbmBgYCJ9 -->
 <pre class="r"><code>#Function template:
 # name &lt;- function(arguments) {
 #   body
 # }
 
-Drought_Year &lt;- function(x) { 
-  if (x&lt;=454) {return(paste(&quot;Drought Year&quot;))
-}
-return(paste(&quot;Non-Drought Year&quot;))
-}
-</code></pre>
+Jan2023Weather %&gt;%
+    group_by(Date = as.Date(mdy_hm(Date))) %&gt;%
+    summarise(min_temp = min(Temperature, na.rm = TRUE),
+              max_temp = max(Temperature, na.rm = TRUE),
+      mean_temp = mean(Temperature, na.rm = TRUE), .groups = &#39;drop&#39;)</code></pre>
 <!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiRXJyb3IgaW4gYGdyb3VwX2J5KClgOlxu4oS5IEluIGFyZ3VtZW50OiBgRGF0ZSA9IGFzLkRhdGUobWR5X2htKERhdGUpKWAuXG5DYXVzZWQgYnkgZXJyb3IgaW4gYGFzLmNoYXJhY3RlcigpYDpcbiEgY2Fubm90IGNvZXJjZSB0eXBlICdjbG9zdXJlJyB0byB2ZWN0b3Igb2YgdHlwZSAnY2hhcmFjdGVyJ1xuQmFja3RyYWNlOlxuICAxLiAuLi4gJT4lIC4uLlxuIDEzLiBsdWJyaWRhdGU6Om1keV9obShEYXRlKVxuIDE0LiBsdWJyaWRhdGU6OjoucGFyc2VfeHh4X2htcyguLi4pXG4gMTYuIGJhc2U6OmxhcHBseShsaXN0KC4uLiksIC5udW1fdG9fZGF0ZSlcbiAxNy4gbHVicmlkYXRlIChsb2NhbCkgRlVOKFhbW2ldXSwgLi4uKVxuIn0= -->
+<pre><code>Error in `group_by()`:
+ℹ In argument: `Date = as.Date(mdy_hm(Date))`.
+Caused by error in `as.character()`:
+! cannot coerce type &#39;closure&#39; to vector of type &#39;character&#39;
+Backtrace:
+  1. ... %&gt;% ...
+ 13. lubridate::mdy_hm(Date)
+ 14. lubridate:::.parse_xxx_hms(...)
+ 16. base::lapply(list(...), .num_to_date)
+ 17. lubridate (local) FUN(X[[i]], ...)</code></pre>
+<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
@@ -1790,7 +1796,7 @@ return(paste(&quot;Non-Drought Year&quot;))
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiTWFraW5nIGZ1bmN0aW9ucyIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQojI0xvYWQgbGlicmFyaWVzIGFuZCBicmluZyBpbiByYWluIGRhdGEKYGBge3J9CmxpYnJhcnkocmVhZHhsKQoKUmFpblBlclllYXJBUyA8LSByZWFkX2V4Y2VsKCJSYWluUGVyWWVhckFTLnhsc3giLCAKICAgIGNvbF90eXBlcyA9IGMoIm51bWVyaWMiLCAibnVtZXJpYyIpKQoKYGBgCmBgYHtyfQojRnVuY3Rpb24gdGVtcGxhdGU6CiMgbmFtZSA8LSBmdW5jdGlvbihhcmd1bWVudHMpIHsKIyAgIGJvZHkKIyB9CgoKCmBgYAoKYGBge3J9CgpgYGAKCgo=</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiTWFraW5nIGZ1bmN0aW9ucyIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQojI0xvYWQgbGlicmFyaWVzIGFuZCBicmluZyBpbiByYWluIGRhdGEKYGBge3J9CmxpYnJhcnkocmVhZHhsKQpsaWJyYXJ5KGRwbHlyKQpsaWJyYXJ5KGx1YnJpZGF0ZSkKCkphbjIwMjNXZWF0aGVyIDwtIHJlYWRfZXhjZWwoIn4vRG9jdW1lbnRzL0VsZXBoYW50IERhdGEvV2VhdGhlckNsb3VkQVMgV2VhdGhlci9XZWF0aGVyQ2xvdWQvV2VhdGhlckNsb3VkMjAyMy9KQU4gMjAyMyBXZWF0aGVyY2xvdWQgQXNhbnRlIFNhbmEgV2VhdGhlciAyMDIzLTAxICg0KS54bHN4IikKCkphbjIwMjNXZWF0aGVyICU+JSAKICByZW5hbWUoCiAgICBEYXRlID0gYERhdGUgKEFmcmljYS9Kb2hhbm5lc2J1cmcpYCwgVGVtcGVyYXR1cmUgPSBgVGVtcGVyYXR1cmUgKMKwQylgKQoKSmFuMjAyM1dlYXRoZXIkYERhdGUgKEFmcmljYS9Kb2hhbm5lc2J1cmcpYCA8LSBhc19kYXRldGltZShKYW4yMDIzV2VhdGhlciRgRGF0ZSAoQWZyaWNhL0pvaGFubmVzYnVyZylgLGZvcm1hdD0iJVktJW0tJWQgJUg6JU06JVMiKQoKYGBgCmBgYHtyfQojRnVuY3Rpb24gdGVtcGxhdGU6CiMgbmFtZSA8LSBmdW5jdGlvbihhcmd1bWVudHMpIHsKIyAgIGJvZHkKIyB9CgpKYW4yMDIzV2VhdGhlciAlPiUKICAgIGdyb3VwX2J5KERhdGUgPSBhcy5EYXRlKG1keV9obShEYXRlKSkpICU+JQogICAgc3VtbWFyaXNlKG1pbl90ZW1wID0gbWluKFRlbXBlcmF0dXJlLCBuYS5ybSA9IFRSVUUpLAogICAgICAgICAgICAgIG1heF90ZW1wID0gbWF4KFRlbXBlcmF0dXJlLCBuYS5ybSA9IFRSVUUpLAogICAgICBtZWFuX3RlbXAgPSBtZWFuKFRlbXBlcmF0dXJlLCBuYS5ybSA9IFRSVUUpLCAuZ3JvdXBzID0gJ2Ryb3AnKQoKCmBgYAoKYGBge3J9CgpgYGAKCgo=</div>
 
 
 

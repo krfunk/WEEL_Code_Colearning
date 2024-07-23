@@ -5,23 +5,48 @@ output: html_notebook
 ##Load libraries and bring in rain data
 ```{r}
 library(readxl)
+library(dplyr)
+library(lubridate)
 
-RainPerYearAS <- read_excel("RainPerYearAS.xlsx", 
-    col_types = c("numeric", "numeric"))
+Jan2023Weather <- read_excel("~/Documents/Elephant Data/WeatherCloudAS Weather/WeatherCloud/WeatherCloud2023/JAN 2023 Weathercloud Asante Sana Weather 2023-01 (4).xlsx")
+
+Jan2023Weather <- transform(Jan2023Weather, Temperature = as.numeric(Temperature))
 
 ```
-```{r}
+
+##Creating function
+```{r creating a function that will calculate the monthly min, max, and mean temp based on temperature points taken every couple of minutes x= dataset (mine is organized by month so I don't need to further transform/sort data into months) y=column with temperature data}
+
 #Function template:
 # name <- function(arguments) {
 #   body
 # }
 
+Jan2023Weather %>%
+    summarise(min_temp = min(Temperature, na.rm = TRUE),
+              max_temp = max(Temperature, na.rm = TRUE),
+      mean_temp = mean(Temperature, na.rm = TRUE), .groups = 'drop')
 
+Monthly_min_max_mean <- function(x,y)
+   { x %>%
+    summarise(min_temp = min(y, na.rm = TRUE),
+              max_temp = max(y, na.rm = TRUE),
+      mean_temp = mean(y, na.rm = TRUE), .groups = 'drop')}
 
 ```
 
+##Test Function
 ```{r}
+Monthly_min_max_mean(Jan2023Weather, Jan2023Weather$Temperature)
 
+```
+##Test function with randomly generated data
+```{r}
+Date <- c(1:3)
+Temperature <- c(-10,0,10)
+df<-data.frame(Date,Temperature)
+
+Monthly_min_max_mean(df, df$Temperature)
 ```
 
 
